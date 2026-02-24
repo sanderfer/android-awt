@@ -52,6 +52,9 @@ add_library( # Specifies the name of the library.
              # Provides a relative path to your source file(s).
              ${SOURCES} )
 
+# 16KB page size support (Android 15+)
+target_link_options(awtcompat-native-components PRIVATE "-Wl,-z,max-page-size=16384")
+
 include_directories(
     headers/
     common/
