@@ -23,13 +23,13 @@ To generate PDF files locally on an Android Device, there are a lot of commercia
 
 ```
 repositories {
-    maven { url "https://andob.io/repository/open_source" }
+    maven { url "https://jitpack.io" }
 }
 ```
 
 ```
 dependencies {
-	implementation 'ro.andob.androidawt:androidawt:1.0.4'
+    implementation("com.github.sanderfer:android-awt:Tag")
 }
 ```
 
