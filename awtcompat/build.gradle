@@ -1,24 +1,37 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 
 android {
-    compileSdkVersion 30
+    namespace 'org.librepdf.openpdf.android.awtcompat'
+    compileSdk 35
+
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 30
+        minSdk 21
+        targetSdk 35
         versionCode 1
         versionName "1.0.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     publishing {
         singleVariant("release") {}
     }
-    ndkVersion "22.0.7026061"
+
+    ndkVersion "26.1.10909125"
+
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
@@ -28,26 +41,26 @@ android {
 
 dependencies {
     api 'com.jaredrummler:sfntly:1.0.1'
-
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
-project.afterEvaluate {
+afterEvaluate {
     publishing {
         publications {
-            repositories.maven {
-                url 'https://andob.io/repository/open_source/'
-                credentials {
-                    username "$System.env.MAVEN_PUBLISH_USERNAME"
-                    password "$System.env.MAVEN_PUBLISH_PASSWORD"
-                }
-            }
-
             release(MavenPublication) {
                 from components.release
                 groupId 'ro.andob.androidawt'
                 artifactId 'androidawt'
                 version '1.0.4'
+            }
+        }
+        repositories {
+            maven {
+                url 'https://andob.io/repository/open_source/'
+                credentials {
+                    username System.env.MAVEN_PUBLISH_USERNAME
+                    password System.env.MAVEN_PUBLISH_PASSWORD
+                }
             }
         }
     }
